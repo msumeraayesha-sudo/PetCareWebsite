@@ -287,7 +287,7 @@ db.serialize(() => {
    HOME / API TEST
 ====================================================== */
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.json({
         success: true,
         message: "PetCareWebsite Backend API is running 🐾"
