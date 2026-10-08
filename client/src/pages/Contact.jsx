@@ -45,7 +45,7 @@ function Contact() {
 
         try {
             const response = await fetch(
-                "http://localhost:3000/api/contact",
+                "/api/contact",
                 {
                     method: "POST",
                     headers: {

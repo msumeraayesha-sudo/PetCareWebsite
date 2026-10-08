@@ -1459,11 +1459,42 @@ app.post("/api/auth/login", (req, res) => {
 });
 
 /* ======================================================
+   SERVE REACT FRONTEND
+====================================================== */
+
+const clientDistPath = path.join(
+    __dirname,
+    "client",
+    "dist"
+);
+
+app.use(express.static(clientDistPath));
+
+/* ======================================================
+   REACT ROUTING FALLBACK
+====================================================== */
+
+app.use((req, res, next) => {
+    if (
+        req.method === "GET" &&
+        req.accepts("html")
+    ) {
+        return res.sendFile(
+            path.join(
+                clientDistPath,
+                "index.html"
+            )
+        );
+    }
+
+    next();
+});
+
+/* ======================================================
    404 HANDLER
 ====================================================== */
 
 app.use((req, res) => {
-
     res.status(404).json({
         success: false,
         message: "API route not found"

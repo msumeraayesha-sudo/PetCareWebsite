@@ -20,7 +20,7 @@ function OrderDetails() {
             setError("");
 
             const orderResponse = await fetch(
-                `http://localhost:3000/api/orders/${id}`
+                `/api/orders/${id}`
             );
 
             const orderData = await orderResponse.json();
@@ -39,7 +39,7 @@ function OrderDetails() {
             setOrder(foundOrder);
 
             const itemsResponse = await fetch(
-                `http://localhost:3000/api/orders/${id}/items`
+                `/api/orders/${id}/items`
             );
 
             const itemsData = await itemsResponse.json();

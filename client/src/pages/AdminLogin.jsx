@@ -23,7 +23,7 @@ function AdminLogin() {
             setLoading(true);
 
             const response = await fetch(
-                "http://localhost:3000/api/admin/login",
+                "/api/admin/login",
                 {
                     method: "POST",
                     headers: {

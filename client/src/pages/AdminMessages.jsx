@@ -13,7 +13,7 @@ function AdminMessages() {
             setError("");
 
             const response = await fetch(
-                "http://localhost:3000/api/contact"
+                "/api/contact"
             );
 
             const data = await response.json();

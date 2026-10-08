@@ -30,21 +30,25 @@ function Shop() {
                 setError("");
 
                 const response = await fetch(
-                    "http://localhost:3000/api/products"
+                    "/api/products"
                 );
 
                 if (!response.ok) {
                     throw new Error("Failed to load products");
                 }
+                const text = await response.text();
 
-                const data = await response.json();
+if (!text) {
+    throw new Error("The server returned an empty response.");
+}
 
-                console.log(
-                    "Products from backend:",
-                    data
-                );
+                const data = JSON.parse(text);
 
-                setProducts(data.products || []);
+if (!data.success) {
+    throw new Error(data.message || "Failed to load products.");
+}
+
+setProducts(data.products || []);
 
             } catch (err) {
                 console.error("Shop error:", err);

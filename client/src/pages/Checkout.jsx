@@ -81,7 +81,7 @@ function Checkout() {
             console.log("📦 Sending order:", orderData);
 
             const response = await fetch(
-                "http://localhost:3000/api/orders",
+                "/api/orders",
                 {
                     method: "POST",
                     headers: {

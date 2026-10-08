@@ -32,7 +32,7 @@ function Orders() {
             }
 
             const response = await fetch(
-                `http://localhost:3000/api/orders?userId=${user.id}`
+                `/api/orders?userId=${user.id}`
             );
 
             const data = await response.json();
