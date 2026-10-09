@@ -14779,3 +14779,53 @@ select {
         width: 100%;
     }
 }
+
+
+/* COUNTRY AND CURRENCY SELECTOR */
+.currency-selector {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 8px;
+    background: var(--cream, #f7f2e8);
+    border: 1px solid var(--border, #dfe5dc);
+    border-radius: 10px;
+    flex-shrink: 0;
+    min-width: 95px;
+    position: relative;
+    z-index: 5;
+    visibility: visible;
+    opacity: 1;
+}
+
+.currency-selector span {
+    display: inline-block;
+    font-size: 15px;
+}
+
+.currency-selector select {
+    display: inline-block;
+    width: 85px;
+    max-width: 100%;
+    padding: 4px 2px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--dark-green, #294334);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.currency-selector select option {
+    background: #ffffff;
+    color: #243027;
+}
+
+@media (max-width: 768px) {
+    .currency-selector {
+        margin: 5px 0;
+    }
+}

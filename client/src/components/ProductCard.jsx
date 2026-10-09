@@ -1,6 +1,7 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { usePetCare } from "../context/PetCareContext";
+import { useCurrency } from "../context/CurrencyContext";
 
 function ProductCard({ product }) {
     const {
@@ -8,6 +9,8 @@ function ProductCard({ product }) {
         toggleWishlist,
         isInWishlist,
     } = usePetCare();
+
+    const { formatPrice } = useCurrency();
 
     const navigate = useNavigate();
 
@@ -24,10 +27,8 @@ function ProductCard({ product }) {
 
     return (
         <div className="product-card">
-
             {/* Product Image */}
             <div className="product-image-wrapper">
-
                 <Link
                     to={`/shop/product/${product.id}`}
                     className="product-image-link"
@@ -53,12 +54,10 @@ function ProductCard({ product }) {
                 >
                     {isInWishlist(product.id) ? "♥" : "♡"}
                 </button>
-
             </div>
 
             {/* Product Information */}
             <div className="product-info">
-
                 <span className="product-category">
                     {product.category}
                 </span>
@@ -75,16 +74,13 @@ function ProductCard({ product }) {
                     ⭐ {product.rating || "4.5"}
                 </div>
 
-                {/* Price */}
+                {/* Converted Price */}
                 <p className="product-price">
-                    ₹
-                    {Number(product.price).toLocaleString("en-IN")}
+                    {formatPrice(product.price)}
                 </p>
 
                 {/* Actions */}
                 <div className="product-actions">
-
-                    {/* Add to Cart */}
                     <button
                         className="add-cart-btn"
                         onClick={() => addToCart(product)}
@@ -92,14 +88,12 @@ function ProductCard({ product }) {
                         🛒 Add to Cart
                     </button>
 
-                    {/* Buy Now */}
                     <button
                         className="buy-btn"
                         onClick={handleBuyNow}
                     >
                         ⚡ Buy Now
                     </button>
-
                 </div>
 
                 {/* View Details */}
@@ -109,7 +103,6 @@ function ProductCard({ product }) {
                 >
                     View Details →
                 </Link>
-
             </div>
         </div>
     );

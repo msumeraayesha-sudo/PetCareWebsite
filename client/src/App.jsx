@@ -1,5 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CurrencyProvider } from "./context/CurrencyContext";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -94,44 +95,42 @@ function CustomerLayout() {
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
+        <CurrencyProvider>
+            <BrowserRouter>
+                <Routes>
+                    {/* CUSTOMER WEBSITE */}
+                    <Route
+                        path="*"
+                        element={<CustomerLayout />}
+                    />
 
-                {/* CUSTOMER WEBSITE */}
-                <Route
-                    path="*"
-                    element={<CustomerLayout />}
-                />
+                    {/* ADMIN PANEL */}
+                    <Route element={<ProtectedAdminRoute />}>
+                        <Route element={<AdminLayout />}>
+                            <Route
+                                path="/admin"
+                                element={<AdminDashboard />}
+                            />
 
-                {/* ADMIN PANEL */}
-                <Route element={<ProtectedAdminRoute />}>
-                    <Route element={<AdminLayout />}>
+                            <Route
+                                path="/admin/orders"
+                                element={<AdminOrders />}
+                            />
 
-                        <Route
-                            path="/admin"
-                            element={<AdminDashboard />}
-                        />
+                            <Route
+                                path="/admin/products"
+                                element={<AdminProducts />}
+                            />
 
-                        <Route
-                            path="/admin/orders"
-                            element={<AdminOrders />}
-                        />
-
-                        <Route
-                            path="/admin/products"
-                            element={<AdminProducts />}
-                        />
-
-                        <Route
-                            path="/admin/messages"
-                            element={<AdminMessages />}
-                        />
-
+                            <Route
+                                path="/admin/messages"
+                                element={<AdminMessages />}
+                            />
+                        </Route>
                     </Route>
-                </Route>
-
-            </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
+        </CurrencyProvider>
     );
 }
 

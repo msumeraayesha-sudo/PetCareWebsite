@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { usePetCare } from "../context/PetCareContext";
+import { useCurrency } from "../context/CurrencyContext";
 
 function Cart() {
     const {
@@ -12,33 +13,27 @@ function Cart() {
         removeFromCart,
     } = usePetCare();
 
-    // Delivery is free above ₹1000
+    const { formatPrice } = useCurrency();
+
+    // Delivery is free above ₹1000.
+    // Cart calculations remain in INR.
     const delivery =
         cartTotal >= 1000 || cartTotal === 0 ? 0 : 49;
 
     const total = cartTotal + delivery;
 
-    /* =========================================
-       EMPTY CART
-    ========================================= */
-
+    // EMPTY CART
     if (cart.length === 0) {
         return (
             <div className="cart-page">
-
                 <section className="empty-cart">
-
-                    <div className="empty-cart-icon">
-                        🛒
-                    </div>
+                    <div className="empty-cart-icon">🛒</div>
 
                     <span className="eyebrow">
                         YOUR SHOPPING CART
                     </span>
 
-                    <h1>
-                        Your Cart Is Empty
-                    </h1>
+                    <h1>Your Cart Is Empty</h1>
 
                     <p>
                         Looks like you haven't added anything
@@ -51,26 +46,16 @@ function Cart() {
                     >
                         Browse Products →
                     </Link>
-
                 </section>
-
             </div>
         );
     }
 
-    /* =========================================
-       CART PAGE
-    ========================================= */
-
+    // CART PAGE
     return (
         <div className="cart-page">
-
-            {/* =================================
-                HEADER
-            ================================= */}
-
+            {/* HEADER */}
             <section className="cart-header">
-
                 <span className="eyebrow">
                     PETCAREWEBSITE
                 </span>
@@ -83,49 +68,26 @@ function Cart() {
                     Everything your pet needs,
                     all in one place. 🐾
                 </p>
-
             </section>
 
-
-            {/* =================================
-                CART CONTENT
-            ================================= */}
-
+            {/* CART CONTENT */}
             <section className="cart-container">
-
-                {/* =================================
-                    CART ITEMS
-                ================================= */}
-
+                {/* CART ITEMS */}
                 <div className="cart-items">
-
-                    {/* Cart Items Header */}
-
                     <div className="cart-items-header">
-
                         <h2>
-                            Cart Items
-                            <span>
-                                {" "}({cartCount})
-                            </span>
+                            Cart Items <span>({cartCount})</span>
                         </h2>
 
                         <Link to="/shop">
                             ← Continue Shopping
                         </Link>
-
                     </div>
 
-
-                    {/* =================================
-                        PRODUCTS
-                    ================================= */}
-
+                    {/* PRODUCTS */}
                     {cart.map((item) => {
-
                         const image =
-                            item.name ===
-                            "Interactive Rope Toy"
+                            item.name === "Interactive Rope Toy"
                                 ? "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=85"
                                 : item.image ||
                                   "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=800&q=80";
@@ -139,207 +101,129 @@ function Cart() {
                                 className="cart-item"
                                 key={item.id}
                             >
-
                                 {/* PRODUCT IMAGE */}
-
                                 <div className="cart-item-image">
-
                                     <img
                                         src={image}
                                         alt={item.name}
                                     />
-
                                 </div>
-
 
                                 {/* PRODUCT DETAILS */}
-
                                 <div className="cart-item-details">
+                                    <span>{item.category}</span>
 
-                                    <span>
-                                        {item.category}
-                                    </span>
-
-                                    <h3>
-                                        {item.name}
-                                    </h3>
+                                    <h3>{item.name}</h3>
 
                                     <p>
-                                        ₹
-                                        {Number(
-                                            item.price
-                                        ).toLocaleString(
-                                            "en-IN"
-                                        )}
+                                        {formatPrice(item.price)}
                                     </p>
-
                                 </div>
 
-
                                 {/* QUANTITY */}
-
                                 <div className="quantity-control">
-
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            decreaseQuantity(
-                                                item.id
-                                            )
+                                            decreaseQuantity(item.id)
                                         }
                                         aria-label={`Decrease ${item.name} quantity`}
                                     >
                                         −
                                     </button>
 
-                                    <strong>
-                                        {item.quantity}
-                                    </strong>
+                                    <strong>{item.quantity}</strong>
 
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            increaseQuantity(
-                                                item.id
-                                            )
+                                            increaseQuantity(item.id)
                                         }
                                         aria-label={`Increase ${item.name} quantity`}
                                     >
                                         +
                                     </button>
-
                                 </div>
 
-
                                 {/* ITEM TOTAL */}
-
                                 <div className="cart-item-total">
-
                                     <strong>
-                                        ₹
-                                        {itemTotal.toLocaleString(
-                                            "en-IN"
-                                        )}
+                                        {formatPrice(itemTotal)}
                                     </strong>
 
                                     <button
                                         type="button"
                                         className="remove-item"
                                         onClick={() =>
-                                            removeFromCart(
-                                                item.id
-                                            )
+                                            removeFromCart(item.id)
                                         }
                                     >
                                         🗑️ Remove
                                     </button>
-
                                 </div>
-
                             </div>
                         );
                     })}
-
                 </div>
 
-
-                {/* =================================
-                    ORDER SUMMARY
-                ================================= */}
-
+                {/* ORDER SUMMARY */}
                 <aside className="cart-summary">
-
                     <span className="eyebrow">
                         ORDER SUMMARY
                     </span>
 
-                    <h2>
-                        Summary
-                    </h2>
-
+                    <h2>Summary</h2>
 
                     {/* SUBTOTAL */}
-
                     <div className="summary-row">
-
-                        <span>
-                            Subtotal
-                        </span>
+                        <span>Subtotal</span>
 
                         <strong>
-                            ₹
-                            {cartTotal.toLocaleString(
-                                "en-IN"
-                            )}
+                            {formatPrice(cartTotal)}
                         </strong>
-
                     </div>
 
-
                     {/* DELIVERY */}
-
                     <div className="summary-row">
-
-                        <span>
-                            Delivery
-                        </span>
+                        <span>Delivery</span>
 
                         <strong>
                             {delivery === 0
                                 ? "FREE"
-                                : `₹${delivery}`}
+                                : formatPrice(delivery)}
                         </strong>
-
                     </div>
 
-
                     {/* FREE DELIVERY MESSAGE */}
-
                     {cartTotal < 1000 && (
                         <p className="delivery-note">
-                            Add ₹
-                            {(1000 - cartTotal).toLocaleString(
-                                "en-IN"
-                            )}{" "}
-                            more to unlock
-                            <strong> FREE delivery!</strong>
+                            Add{" "}
+                            {formatPrice(1000 - cartTotal)}{" "}
+                            more to unlock{" "}
+                            <strong>FREE delivery!</strong>
                         </p>
                     )}
 
                     {cartTotal >= 1000 && (
                         <p className="delivery-note">
-                            🎉 Congratulations!
-                            You've unlocked
-                            <strong> FREE delivery.</strong>
+                            🎉 Congratulations! You've unlocked{" "}
+                            <strong>FREE delivery.</strong>
                         </p>
                     )}
 
-
                     {/* DIVIDER */}
-
                     <div className="summary-divider"></div>
 
-
                     {/* TOTAL */}
-
                     <div className="summary-total">
-
-                        <span>
-                            Total
-                        </span>
+                        <span>Total</span>
 
                         <strong>
-                            ₹
-                            {total.toLocaleString(
-                                "en-IN"
-                            )}
+                            {formatPrice(total)}
                         </strong>
-
                     </div>
 
-
                     {/* CHECKOUT */}
-
                     <Link
                         to="/checkout"
                         className="checkout-btn"
@@ -347,17 +231,12 @@ function Cart() {
                         Proceed to Checkout →
                     </Link>
 
-
                     {/* SECURITY */}
-
                     <div className="secure-checkout">
                         🔒 Secure Checkout
                     </div>
-
                 </aside>
-
             </section>
-
         </div>
     );
 }

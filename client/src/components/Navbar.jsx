@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePetCare } from "../context/PetCareContext";
+import { useCurrency } from "../context/CurrencyContext";
 
 function Navbar() {
     const location = useLocation();
@@ -10,6 +11,11 @@ function Navbar() {
         cartCount,
         wishlist,
     } = usePetCare();
+    const {
+    countries,
+    countryCode,
+    setCountryCode
+    } = useCurrency();
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -183,6 +189,22 @@ function Navbar() {
                 ========================================= */}
 
                 <div className="navbar-actions">
+                    <div className="currency-selector">
+    <span aria-hidden="true">🌍</span>
+
+    <select
+        value={countryCode}
+        onChange={(e) => setCountryCode(e.target.value)}
+        aria-label="Choose your country and currency"
+        title="Choose your country and currency"
+    >
+        {countries.map((item) => (
+            <option key={item.code} value={item.code}>
+                {item.code} ({item.currency})
+            </option>
+        ))}
+    </select>
+</div>
 
                     {/* Wishlist */}
 
